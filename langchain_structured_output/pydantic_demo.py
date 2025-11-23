@@ -1,9 +1,14 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class Student(BaseModel):
     name : str
+    age : Optional[int] = None
 
-new_student = {'name':'ayush'}
-student = Student(**new_student)
+new_student1 = {'name':'ayush','age':11}
+new_student2 = {'name':'ayush'}
+student1 = Student(**new_student1)
+student2 = Student(**new_student2)
 
-print(student)
+print(student1)
+print(student2)
