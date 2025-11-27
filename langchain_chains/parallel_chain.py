@@ -5,42 +5,41 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnableParallel
 
-
 load_dotenv()
 
 # FREE MODEL 1 → Groq LLaMA 3.1 (8B Instant)
 model1 = ChatGroq(model="llama-3.1-8b-instant")
 
-# FREE MODEL 2 → Google Gemini Flash 1.5
-model2 = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
+# FREE MODEL 2 → Google Gemini 1.5 (Stable & Correct Model Name)
+model2 = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
 
 # Prompt to generate notes
 prompt1 = PromptTemplate(
-    template='Generate short and simple notes from the following text:\n{text}',
-    input_variables=['text']
+    template="Generate short and simple notes from the following text:\n{text}",
+    input_variables=["text"]
 )
 
 # Prompt to generate quiz
 prompt2 = PromptTemplate(
-    template='Generate 5 short question-answers from the following text:\n{text}',
-    input_variables=['text']
+    template="Generate 5 short question-answers from the following text:\n{text}",
+    input_variables=["text"]
 )
 
-# Prompt to merge the results
+# Prompt to merge results
 prompt3 = PromptTemplate(
-    template='Merge the provided notes and quiz into a single clean document:\nNotes: {notes}\nQuiz: {quiz}',
-    input_variables=['notes', 'quiz']
+    template="Merge the provided notes and quiz into a single clean document:\nNotes: {notes}\nQuiz: {quiz}",
+    input_variables=["notes", "quiz"]
 )
 
 parser = StrOutputParser()
 
 # Run both models in parallel
 parallel_chain = RunnableParallel({
-    'notes': prompt1 | model1 | parser,
-    'quiz': prompt2 | model2 | parser
+    "notes": prompt1 | model1 | parser,
+    "quiz": prompt2 | model2 | parser
 })
 
-# Merge results using free model
+# Merge notes + quiz into final answer
 merge_chain = prompt3 | model1 | parser
 
 # Full pipeline
@@ -61,8 +60,8 @@ Disadvantages:
 - Sparse input requires model trained on sparse data.
 """
 
-result = chain.invoke({'text': text})
+result = chain.invoke({"text": text})
 print(result)
 
-# Optional: print chain graph
+# Optional: Print pipeline graph
 chain.get_graph().print_ascii()
