@@ -10,14 +10,15 @@ load_dotenv()
 llm = ChatGroq(model="llama-3.1-8b-instant")
 
 prompt = PromptTemplate(
-    template = 'Generate a 5 line report on {topic}',
-    input_variable = ['topic']
+    template='Generate a 5 line report on {topic}',
+    input_variables=['topic']
 )
 
 topic = input('Enter a topic: ')
 
 formatted_prompt = prompt.format(topic=topic)
 
-report_title = llm.predict(formatted_prompt)
+# FIX: use invoke instead of predict
+response = llm.invoke([HumanMessage(content=formatted_prompt)])
 
-print('Genrated : ', report_title)
+print("Generated:\n", response.content)
