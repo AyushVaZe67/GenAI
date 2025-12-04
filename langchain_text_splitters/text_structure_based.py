@@ -8,7 +8,7 @@ These missions have not only expanded our knowledge of the universe but have als
 
 # Initialize the splitter
 splitter = RecursiveCharacterTextSplitter(
-    chunk_size=5,
+    chunk_size=15,
     chunk_overlap=0,
 )
 
