@@ -6,7 +6,7 @@ def get_conversion_factor(base_currency: str, target_currency: str) -> float:
   """
   This function fetches the currency conversion factor between a given base currency and a target currency
   """
-  url = f'https://v6.exchangerate-api.com/v6/cc5c939596677af9a3388bf3/pair/{base_currency}/{target_currency}'
+  url = f'https://v6.exchangerate-api.com/v6/cc5c939/pair/{base_currency}/{target_currency}'
 
   response = requests.get(url)
 
@@ -19,6 +19,7 @@ def convert(base_currency_value: int, conversion_rate: Annotated[float, Injected
   """
 
   return base_currency_value * conversion_rate
+
 
 
 
